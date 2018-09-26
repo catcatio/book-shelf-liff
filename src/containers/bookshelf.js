@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import TextField from '@material-ui/core/TextField';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Button from '@material-ui/core/Button';
-import Chip from '@material-ui/core/Chip';
-import Search from '@material-ui/icons/Search';
+import TextField from '@material-ui/core/TextField'
+import IconButton from '@material-ui/core/IconButton'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import Button from '@material-ui/core/Button'
+import Chip from '@material-ui/core/Chip'
+import Search from '@material-ui/icons/Search'
 import Select from '@material-ui/core/Select'
 import FilterList from '@material-ui/icons/FilterList'
 
@@ -175,8 +175,8 @@ export default class BookShelf extends Component {
         </SearchBoxWrapper>
         <Shelf>
           {
-            books.map(b => (
-              <BookItem>
+            books.map((b, i) => (
+              <BookItem key={i}>
                 <BookIcon url={b.coverUrl}></BookIcon>
                 <BookTitle title={b.title}>{b.title}</BookTitle>
               </BookItem>
@@ -185,6 +185,6 @@ export default class BookShelf extends Component {
         </Shelf>
         <Chip label="More" />
       </Content>
-    );
+    )
   }
 }

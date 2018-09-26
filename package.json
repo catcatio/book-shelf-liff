@@ -17,6 +17,9 @@
     "styled-components-ts": "0.0.14"
   },
   "devDependencies": {
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-react": "^7.11.1",
     "react-scripts": "^1.1.5",
     "webpack": "3.8.1"
   },

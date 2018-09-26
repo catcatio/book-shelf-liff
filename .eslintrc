@@ -1,0 +1,28 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "airbnb"
+  ],
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "semi": [2, "never"],
+    "react/jsx-indent": [2, 2],
+    "no-console":"off"
+  }
+}

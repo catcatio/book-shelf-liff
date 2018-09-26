@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import EpubViewer from '../components/epub'
 
 export default class EpubReader extends Component {
