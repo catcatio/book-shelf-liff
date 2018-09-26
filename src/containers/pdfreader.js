@@ -5,7 +5,7 @@ import pdfjsLib from 'pdfjs-dist/webpack';
 
 export default class PdfReader extends Component {
   componentDidMount() {
-    const documentUrl = '/assets/pdf/LiberaMe_01_demo.pdf'
+    const documentUrl = '/shelf/assets/pdf/LiberaMe_01_demo.pdf'
     let loadingTask = pdfjsLib.getDocument(documentUrl);
     loadingTask.promise.then((doc) => {
       console.log(`Document ${documentUrl} loaded ${doc.numPages} page(s)`);
