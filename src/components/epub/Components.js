@@ -88,6 +88,16 @@ export const FontSizeButton = Button.extend`
   right: 1.5rem;
   z-index: 10;
   background: #eee;
-  border-radius: 2px;
+  border-radius: 10px;
+  padding: 0.5rem;
+`
+
+export const ThemeButton = Button.extend`
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 10;
+  background: #eee;
+  border-radius: 10px;
   padding: 0.5rem;
 `

@@ -69,7 +69,7 @@ class Viewer extends Component {
     })
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps, nextState) {
     if (this.state.doc !== nextState.doc) {
       this._pdfViewer.setDocument(nextState.doc)
     }

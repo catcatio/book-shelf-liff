@@ -7,11 +7,12 @@ import {
   Bar,
   CloseButton,
   CloseIcon,
-  FontSizeButton
+  FontSizeButton,
+  ThemeButton
 } from './Components'
 
 const storage = global.localStorage || null
-
+const themes = ['light', 'tan', 'dark']
 export default class EpubViewer extends Component {
   constructor(props) {
     super(props)
@@ -26,8 +27,8 @@ export default class EpubViewer extends Component {
       epubOptions: {
         manager: "continuous",
         flow: "scrolled",
-        themes: { "dark": { "color": "purple" } }
-      }
+      },
+      currentTheme: 0
     }
     this.rendition = null
   }
@@ -69,24 +70,31 @@ export default class EpubViewer extends Component {
     )
   }
 
+  onToggleTheme = () => {
+    let currentTheme = this.state.currentTheme + 1
+    if (currentTheme >= themes.length) currentTheme = 0
+    this.setState({ currentTheme })
+    this.rendition.themes.select(themes[currentTheme])
+  }
+
   getRendition = rendition => {
     // Set inital font-size, and add a pointer to rendition for later updates
-    const { largeText } = this.state
+    const { largeText, currentTheme } = this.state
     this.rendition = rendition
     rendition.themes.fontSize(largeText ? '140%' : '100%')
-    rendition.themes.register('dark', { body: {background: '#171717', color: '#BEBEBE' }})
-    rendition.themes.register('tan', { body: {background: '#FBF4E7', color: '#663D19' }})
-    rendition.themes.register('light', { body: {background: '#FCFCFC', color: '#242424' }})
-    rendition.themes.select('light')
-    // rendition.themes.default({
-    //   h2: {
-    //     'font-size': '32px',
-    //     color: 'purple'
-    //   },
-    //   p: {
-    //     "margin": '10px'
-    //   }
-    // });
+    rendition.themes.register('dark', { body: { background: '#171717', color: '#BEBEBE' } })
+    rendition.themes.register('tan', { body: { background: '#FBF4E7', color: '#663D19' } })
+    rendition.themes.register('light', { body: { background: '#FCFCFC', color: '#242424' } })
+    rendition.themes.select(themes[currentTheme])
+
+    rendition.hooks.content.register(function (contents) {
+      console.log(contents)
+      var script = contents.document.createElement('script');
+      script.text = "!function(a,b,c){function f(a){d=a.touches[0].clientX,e=a.touches[0].clientY}function g(f){if(d&&e){var g=f.touches[0].clientX,h=f.touches[0].clientY,i=d-g,j=e-h;Math.abs(i)>Math.abs(j)&&(i>a?b():i<0-a&&c()),d=null,e=null}}var d=null,e=null;document.addEventListener('touchstart',f,!1),document.addEventListener('touchmove',g,!1)}";
+      // script.text += "(10,function(){parent.ePubViewer.Book.nextPage()},function(){parent.ePubViewer.Book.prevPage()});"
+      script.text += "(10,function(){console.log('Next Page')},function(){console.log('Prev Page')});"
+      contents.document.head.appendChild(script);
+    });
   }
 
   render() {
@@ -111,6 +119,9 @@ export default class EpubViewer extends Component {
           <FontSizeButton onClick={this.onToggleFontSize}>
             Toggle font-size
           </FontSizeButton>
+          <ThemeButton onClick={this.onToggleTheme}>
+            {themes[this.state.currentTheme]}
+          </ThemeButton>
         </ReaderContainer>
       </Container>
     )
