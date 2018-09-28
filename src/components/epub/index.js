@@ -1,57 +1,38 @@
-
 import React, { Component } from 'react'
-import { ReactReader } from 'react-reader'
+import EpubView from './EpubView'
 import {
   Container,
-  ReaderContainer,
-  Bar,
-  CloseButton,
-  CloseIcon,
   FontSizeButton,
-  ThemeButton
+  ThemeButton,
+  LoadingView
 } from './Components'
 
 const storage = global.localStorage || null
-const themes = ['light', 'tan', 'dark']
+const themes = ['light', 'tan', 'gray', 'dark']
 export default class EpubViewer extends Component {
   constructor(props) {
     super(props)
+    this.readerRef = React.createRef()
     this.state = {
       document: this.props.document,
-      fullscreen: true,
       location:
         storage && storage.getItem('epub-location')
           ? storage.getItem('epub-location')
           : 2,
-      largeText: false,
+      largeText: true,
       epubOptions: {
         manager: "continuous",
         flow: "scrolled",
+        // overflow: 'visible',
+        fullsize: false,
       },
-      currentTheme: 0
+      currentTheme: 2
     }
     this.rendition = null
   }
 
-  toggleFullscreen = () => {
-    this.setState(
-      {
-        fullscreen: !this.state.fullscreen
-      },
-      () => {
-        setTimeout(() => {
-          const evt = document.createEvent('UIEvents')
-          evt.initUIEvent('resize', true, false, global, 0)
-        }, 1000)
-      }
-    )
-  }
-
   onLocationChanged = location => {
-    this.setState(
-      {
-        location
-      },
+    this.setState({ location },
       () => {
         storage && storage.setItem('epub-location', location)
       }
@@ -82,39 +63,27 @@ export default class EpubViewer extends Component {
     const { largeText, currentTheme } = this.state
     this.rendition = rendition
     rendition.themes.fontSize(largeText ? '140%' : '100%')
-    rendition.themes.register('dark', { body: { background: '#171717', color: '#BEBEBE' } })
-    rendition.themes.register('tan', { body: { background: '#FBF4E7', color: '#663D19' } })
-    rendition.themes.register('light', { body: { background: '#FCFCFC', color: '#242424' } })
+    rendition.themes.register('dark', { body: { background: 'rgb(18, 18, 18)', color: 'rgb(176, 176, 176)' } })
+    rendition.themes.register('gray', { body: { background: 'rgb(74, 74, 77)', color: 'rgb(215, 215, 215)' } })
+    rendition.themes.register('tan', { body: { background: 'rgb(249, 241, 227)', color: 'rgb(77, 47, 26)' } })
+    rendition.themes.register('light', { body: { background: 'rgb(251, 251, 251)', color: 'rgb(27, 27, 27)' } })
     rendition.themes.select(themes[currentTheme])
-
-    rendition.hooks.content.register(function (contents) {
-      console.log(contents)
-      var script = contents.document.createElement('script');
-      script.text = "!function(a,b,c){function f(a){d=a.touches[0].clientX,e=a.touches[0].clientY}function g(f){if(d&&e){var g=f.touches[0].clientX,h=f.touches[0].clientY,i=d-g,j=e-h;Math.abs(i)>Math.abs(j)&&(i>a?b():i<0-a&&c()),d=null,e=null}}var d=null,e=null;document.addEventListener('touchstart',f,!1),document.addEventListener('touchmove',g,!1)}";
-      // script.text += "(10,function(){parent.ePubViewer.Book.nextPage()},function(){parent.ePubViewer.Book.prevPage()});"
-      script.text += "(10,function(){console.log('Next Page')},function(){console.log('Prev Page')});"
-      contents.document.head.appendChild(script);
-    });
   }
 
   render() {
-    const { fullscreen, location, epubOptions } = this.state
+    const { location, epubOptions, document } = this.state
+
     return (
       <Container>
-        <Bar>
-          <CloseButton onClick={this.toggleFullscreen}>
-            Use full browser window
-            <CloseIcon />
-          </CloseButton>
-        </Bar>
-        <ReaderContainer fullscreen={fullscreen}>
-          <ReactReader
-            url={'https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf'}
-            locationChanged={this.onLocationChanged}
-            title={'Moby Dick'}
+          <EpubView
+            ref={this.readerRef}
+            url={document}
             location={location}
-            getRendition={this.getRendition}
+            loadingView={(<LoadingView>Loading</LoadingView>)}
+            tocChanged={this.onTocChange}
+            locationChanged={this.onLocationChanged}
             epubOptions={epubOptions}
+            getRendition={this.getRendition}
           />
           <FontSizeButton onClick={this.onToggleFontSize}>
             Toggle font-size
@@ -122,7 +91,6 @@ export default class EpubViewer extends Component {
           <ThemeButton onClick={this.onToggleTheme}>
             {themes[this.state.currentTheme]}
           </ThemeButton>
-        </ReaderContainer>
       </Container>
     )
   }

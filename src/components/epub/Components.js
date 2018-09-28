@@ -5,17 +5,13 @@ export const Container = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, #f2f2f2 0%, #333 100%);
+  background: rgb(251, 251, 251);
+  overflow: visible;
 `
 export const ReaderContainer = styled.div`
   font-size: 16px;
-  position: absolute;
-  top: ${props => (props.fullscreen ? 0 : 135)}px;
-  left: ${props => (props.fullscreen ? 0 : 1)}rem;
-  right: ${props => (props.fullscreen ? 0 : 1)}rem;
-  bottom: ${props => (props.fullscreen ? 0 : 1)}rem;
-  transition: all 0.6s ease;
-  ${props => !props.fullscreen && '0 0 5px rgba(0,0,0,.3);'};
+  position: relative;
+  overflow: visible;
 `
 export const Bar = styled.header`
   position: absolute;
@@ -100,4 +96,13 @@ export const ThemeButton = Button.extend`
   background: #eee;
   border-radius: 10px;
   padding: 0.5rem;
+`
+export const LoadingView = styled.div`
+  position: 'absolute',
+  top: '50%',
+  left: '10%',
+  right: '10%',
+  color: '#ccc',
+  textAlign: 'center',
+  margintop: '-.5em'
 `
