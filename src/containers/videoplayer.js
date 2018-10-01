@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import VideoViewer from '../components/video'
 import styled from 'styled-components'
-
+import loadAnimate from './loading.svg'
 
 const VideoPage = styled.div`
   font-size: 10px;
@@ -16,17 +16,6 @@ const LoadingContainer = styled.div`
   align-items: center;
   justify-content: center;
 `
-
-const loading = {
-  margin: '0 0 2em',
-  height: '100px',
-  width: '20%',
-  textAlign: 'center',
-  padding: '1em',
-  margin: '0 auto 1em',
-  display: 'inline-block',
-  verticalAlign: 'top'
-}
 
 const videoInfo = {
   '1': {
@@ -53,48 +42,25 @@ export default class VideoPlayer extends Component {
   constructor(props) {
     super(props)
 
+    const queryString = require('query-string');
+    const parsed = queryString.parse(this.props.location.search);
+    const videoId = parsed.videoId || 1
+    const video = videoInfo[videoId]
+
     this.state = {
       'loading': true,
-      'provider': 'youtube',
-      'videoId': 'y8kwJesil18',
-      'title': '',
-      'description': ''
+      video
     }
   }
 
   componentDidMount() {
-    const queryString = require('query-string');
-    const parsed = queryString.parse(this.props.location.search);
-    const videoId = parsed.videoId || 1
-
-    const video = videoInfo[videoId]
-    this.setState(video)
-    this.setState({loading: false})
+    this.setState({ loading: false })
   }
 
   renderLoadingView() {
     return (
       <LoadingContainer>
-        <div style={loading}>
-          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-            width="24px" height="30px" viewBox="0 0 24 30" style={{ 'enableBackground': 'new 0 0 50 50'}}>
-            <rect x="0" y="10" width="4" height="10" fill="#1aafff" opacity="0.2">
-              <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.6s" repeatCount="indefinite" />
-              <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
-              <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
-            </rect>
-            <rect x="8" y="10" width="4" height="10" fill="#1aafff" opacity="0.2">
-              <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
-              <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
-              <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
-            </rect>
-            <rect x="16" y="10" width="4" height="10" fill="#1aafff" opacity="0.2">
-              <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
-              <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
-              <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
-            </rect>
-          </svg>
-        </div>
+        <img alt="Loading..." src={loadAnimate}></img>
       </LoadingContainer>
     )
   }
@@ -103,10 +69,7 @@ export default class VideoPlayer extends Component {
     return (
       <VideoPage>
         <VideoViewer
-          provider={this.state.provider}
-          videoId={this.state.videoId}
-          title={this.state.title}
-          description={this.state.description}
+          {...this.state.video}
           autoplay={true}
         />
       </VideoPage>
@@ -114,8 +77,9 @@ export default class VideoPlayer extends Component {
   }
 
   render() {
-    return this.state.loading ?
-      this.renderLoadingView() :
-      this.renderVideoView()
+    return this.renderVideoView()
+    // return this.state.loading ?
+    //   this.renderLoadingView() :
+    //   this.renderVideoView()
   }
 }

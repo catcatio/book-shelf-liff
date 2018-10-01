@@ -2,20 +2,25 @@
   "name": "bookshelf-liff",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://localhost/shelf",
+  "homepage": "http://localhost/catcatshelf/movie",
   "dependencies": {
     "@material-ui/core": "^3.1.1",
     "@material-ui/icons": "^3.0.1",
     "epubjs": "^0.3.71",
     "pdfjs-dist": "^1.8.432",
+    "plyr": "^3.4.4",
     "prop-types": "^15.6.2",
+    "query-string": "^6.1.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-plyr": "^2.1.1",
     "react-route": "^1.0.3",
     "react-router-dom": "^4.3.1",
     "styled-components": "^3.4.9",
     "styled-components-breakpoint": "^2.1.0",
-    "styled-components-ts": "0.0.14"
+    "styled-components-ts": "0.0.14",
+    "video.js": "^7.2.3",
+    "videojs-youtube": "^2.6.0"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^17.1.0",
