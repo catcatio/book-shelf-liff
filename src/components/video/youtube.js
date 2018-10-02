@@ -1,38 +1,3 @@
-// import React, { Component } from 'react'
-// import 'youtube-video-js'
-
-// export default class YoutubePlayer extends Component {
-//   // constructor(props) {
-//   //   // this.viewer = React.createRef()
-//   //   super(props)
-//   // }
-
-//   componentDidMount() {
-//     console.log(this.viewer)
-//     this.viewer && this.viewer.load().then(() => {
-//       // pause video after two seconds
-//       console.log('loaded')
-//       const timer = setTimeout(() => {
-//         this.viewer.pause();
-//           clearTimeout(timer);
-//       }, 2000)
-//   });
-//   }
-
-
-//   render() {
-//     console.log('x')
-//     return (
-//       <youtube-video
-//         ref={node => this.viewer = node}
-//         width="640"
-//         height="360"
-//         src="https://www.youtube.com/watch?v=qN4ooNx77u0"
-//         autoplay controls />
-//     )
-//   }
-// }
-
 import React, { Component } from 'react'
 import 'video.js/dist/video-js.min.css'
 import videojs from 'video.js'

@@ -35,10 +35,11 @@ const InfoContainer = styled.div`
 `
 
 const Title = styled.h2`
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-weight: normal;
   font-size: 1.8em;
+  border-bottom: solid 1px #ffffff14;
 `
 
 const Description = styled.div`
@@ -72,7 +73,7 @@ export default class VideoViewer extends Component {
         </Header>
         <Youtube videoId={this.state.videoId} autoplay={this.state.autoplay}/>
         <InfoContainer>
-          <IconButton style={{ color: 'white', float: 'right', padding: '0px' }}>
+          <IconButton style={{ color: 'white', float: 'right', padding: '0px', paddingTop: '10px' }}>
             <ExpandLess />
           </IconButton>
           <Title>{this.state.title}</Title>

@@ -14,6 +14,9 @@ const Content = styled.div`
   background: rgb(255, 255, 255);
   color: rgb(119, 119, 119);
   text-align: center;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
 `
 
 const Shelf = styled.ul`
