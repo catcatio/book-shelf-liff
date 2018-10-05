@@ -6,6 +6,7 @@ import EpubReader from './epubreader'
 import PdfReader from './pdfreader'
 import BookShelf from './bookshelf'
 import MovieShelf from './movieshelf'
+import LineLogin from './linelogin'
 
 const PageNotFound = styled('div') `
   height: 100%;
@@ -44,6 +45,8 @@ export default class PageSelector extends Component {
         return (<EpubReader {...this.props} />)
       case 'pdf':
         return (<PdfReader {...this.props} />)
+      case 'login':
+        return (<LineLogin {...this.props} />)
       default:
         return (<PageNotFound>¯\_(ツ)_/¯</PageNotFound>)
     }
